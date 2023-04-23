@@ -44,14 +44,23 @@ void esp_now_recv_cb(
   const uint8_t *data,
   int data_len
 ) {
+  if (sweeper == THIRD_SWEEPER)
+    return;
+
   memcpy(&msg, data, sizeof(msg));
 
-  if (msg.position == JOYSTICK_UPPER_LEFT && sweeper == LEFT_SWEEPER) {
-    set_instruction(SWEEP_INSTRUCTION);
+  if (msg.position == JOYSTICK_UPPER_LEFT) {
+    if (sweeper == LEFT_SWEEPER)
+      set_instruction(SWEEP_INSTRUCTION);
+    else
+      set_instruction(STOP_INSTRUCTION);
   } else if (msg.position == JOYSTICK_UPPER_CENTER) {
     set_instruction(SWEEP_INSTRUCTION);
-  } else if (msg.position == JOYSTICK_UPPER_RIGHT && sweeper == RIGHT_SWEEPER) {
-    set_instruction(SWEEP_INSTRUCTION);
+  } else if (msg.position == JOYSTICK_UPPER_RIGHT) {
+    if (sweeper == RIGHT_SWEEPER)
+      set_instruction(SWEEP_INSTRUCTION);
+    else
+      set_instruction(STOP_INSTRUCTION);
   } else if (msg.position == JOYSTICK_BOTTOM_LEFT) {
     set_instruction(HARD_INSTRUCTION);
   } else if (msg.position == JOYSTICK_BOTTOM_CENTER) {
@@ -148,6 +157,9 @@ void loop() {
     }
 
     ring_show();
+
+    if (sweeper == THIRD_SWEEPER)
+      set_instruction(STOP_INSTRUCTION);
 
     btn_int_set = false;
   }
