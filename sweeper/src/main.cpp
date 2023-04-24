@@ -11,8 +11,8 @@
 
 #define BAUD_RATE 115200
 
-#define RING_PIN 33
-#define BTN_PIN  22
+#define RING_PIN GPIO_NUM_33
+#define BTN_PIN  GPIO_NUM_34
 
 #define BTN_DELAY 250  // ms
 
