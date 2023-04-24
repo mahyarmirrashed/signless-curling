@@ -18,6 +18,12 @@ typedef struct {
   joystick_position_t position;
 } msg_t;
 
+void btn_int_cb(void);
+int setup_adc(void);
+int setup_peer(void);
+int setup_sleep_btn(void);
+int setup_wifi(void);
+
 #ifdef __cplusplus
 }
 #endif
